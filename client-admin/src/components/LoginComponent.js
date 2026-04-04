@@ -16,51 +16,57 @@ class Login extends Component {
   render() {
     if (this.context.token === '') {
       return (
-        <div className="align-valign-center">
-          <h2 className="text-center">ADMIN LOGIN</h2>
-
-          <form>
-            <table className="align-center">
-              <tbody>
-                <tr>
-                  <td>Username</td>
-                  <td>
+        <div className="login-modal modal d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.3)' }}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  <i className="bi bi-shield-lock"></i> Admin Login
+                </h5>
+              </div>
+              <div className="modal-body">
+                <form className="login-form">
+                  <h2><i className="bi bi-door-closed"></i> Login</h2>
+                  
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="username">Username</label>
                     <input
                       type="text"
+                      className="form-control"
+                      id="username"
+                      placeholder="Enter your username"
                       value={this.state.txtUsername}
                       onChange={(e) =>
                         this.setState({ txtUsername: e.target.value })
                       }
                     />
-                  </td>
-                </tr>
+                  </div>
 
-                <tr>
-                  <td>Password</td>
-                  <td>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="password">Password</label>
                     <input
                       type="password"
+                      className="form-control"
+                      id="password"
+                      placeholder="Enter your password"
                       value={this.state.txtPassword}
                       onChange={(e) =>
                         this.setState({ txtPassword: e.target.value })
                       }
                     />
-                  </td>
-                </tr>
+                  </div>
 
-                <tr>
-                  <td></td>
-                  <td>
-                    <input
-                      type="submit"
-                      value="LOGIN"
-                      onClick={(e) => this.btnLoginClick(e)}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </form>
+                  <button
+                    type="submit"
+                    className="btn-login"
+                    onClick={(e) => this.btnLoginClick(e)}
+                  >
+                    <i className="bi bi-box-arrow-in-right"></i> Login
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       );
     }

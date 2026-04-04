@@ -21,35 +21,41 @@ class Category extends Component {
         className="datatable"
         onClick={() => this.trItemClick(item)}
       >
-        <td>{item._id}</td>
-        <td>{item.name}</td>
+        <td><small>{item._id}</small></td>
+        <td><strong>{item.name}</strong></td>
       </tr>
     ));
 
     return (
-      <div>
-        <div className="float-left">
-          <h2 className="text-center">CATEGORY LIST</h2>
-          <table className="datatable" border="1">
-            <tbody>
-              <tr className="datatable">
-                <th>ID</th>
-                <th>Name</th>
-              </tr>
-              {cates}
-            </tbody>
-          </table>
+      <div className="admin-container p-4">
+        <div className="row">
+          <div className="col-lg-8">
+            <div className="mb-4">
+              <h2 className="mb-3">
+                <i className="bi bi-tag-fill"></i> Category Management
+              </h2>
+            </div>
+
+            <table className="datatable table">
+              <thead>
+                <tr>
+                  <th><i className="bi bi-hash"></i> ID</th>
+                  <th><i className="bi bi-tag"></i> Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cates}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="col-lg-4">
+            <CategoryDetail
+              item={this.state.item}
+              updateCategories={this.updateCategories}
+            />
+          </div>
         </div>
-
-        <div className="inline" />
-
-        {}
-        <CategoryDetail
-          item={this.state.item}
-          updateCategories={this.updateCategories}
-        />
-
-        <div className="float-clear" />
       </div>
     );
   }

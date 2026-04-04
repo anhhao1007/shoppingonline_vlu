@@ -18,27 +18,28 @@ class Main extends Component {
       return (
         <div className="body-admin">
           <Menu />
+          <div style={{ paddingTop: '20px' }}>
+            <Routes>
+              {/* Redirect mặc định */}
+              <Route
+                path="/admin"
+                element={<Navigate replace to="/admin/home" />}
+              />
 
-          <Routes>
-            {/* Redirect mặc định */}
-            <Route
-              path="/admin"
-              element={<Navigate replace to="/admin/home" />}
-            />
+              {/* Pages */}
+              <Route path="/admin/home" element={<Home />} />
+              <Route path="/admin/category" element={<Category />} />
+              <Route path="/admin/product" element={<Product />} />
+              <Route path="/admin/order" element={<Order />} />
+              <Route path="/admin/customer" element={<Customer />} />
 
-            {/* Pages */}
-            <Route path="/admin/home" element={<Home />} />
-            <Route path="/admin/category" element={<Category />} />
-            <Route path="/admin/product" element={<Product />} />
-            <Route path="/admin/order" element={<Order />} />
-            <Route path="/admin/customer" element={<Customer />} />
-
-            {/* Sai đường dẫn */}
-            <Route
-              path="*"
-              element={<Navigate replace to="/admin/home" />}
-            />
-          </Routes>
+              {/* Sai đường dẫn */}
+              <Route
+                path="*"
+                element={<Navigate replace to="/admin/home" />}
+              />
+            </Routes>
+          </div>
         </div>
       );
     }

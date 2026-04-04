@@ -93,22 +93,27 @@ class Customer extends Component {
     }
 
     return (
-      <div>
-        {/* CUSTOMER */}
-        <div className="align-center">
-          <h2 className="text-center">CUSTOMER LIST</h2>
-          <table className="datatable" border="1">
-            <tbody>
-              <tr className="datatable">
-                <th>ID</th>
-                <th>Username</th>
-                <th>Password</th>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Active</th>
-                <th>Action</th>
+      <div className="admin-container p-4">
+        {/* CUSTOMER LIST */}
+        <div className="mb-4">
+          <h2 className="mb-3">
+            <i className="bi bi-people-fill"></i> Customer Management
+          </h2>
+
+          <table className="datatable table">
+            <thead>
+              <tr>
+                <th><i className="bi bi-hash"></i> ID</th>
+                <th><i className="bi bi-at"></i> Username</th>
+                <th><i className="bi bi-key"></i> Password</th>
+                <th><i className="bi bi-person-badge"></i> Name</th>
+                <th><i className="bi bi-telephone"></i> Phone</th>
+                <th><i className="bi bi-envelope"></i> Email</th>
+                <th><i className="bi bi-check-circle"></i> Active</th>
+                <th><i className="bi bi-gear"></i> Action</th>
               </tr>
+            </thead>
+            <tbody>
               {customers}
             </tbody>
           </table>
@@ -116,18 +121,23 @@ class Customer extends Component {
 
         {/* ORDER LIST */}
         {this.state.orders.length > 0 && (
-          <div className="align-center">
-            <h2 className="text-center">ORDER LIST</h2>
-            <table className="datatable" border="1">
-              <tbody>
-                <tr className="datatable">
-                  <th>ID</th>
-                  <th>Creation date</th>
-                  <th>Cust. name</th>
-                  <th>Cust. phone</th>
-                  <th>Total</th>
-                  <th>Status</th>
+          <div className="mb-4">
+            <h3 className="mb-3">
+              <i className="bi bi-bag-check"></i> Customer Orders
+            </h3>
+
+            <table className="datatable table">
+              <thead>
+                <tr>
+                  <th><i className="bi bi-hash"></i> ID</th>
+                  <th><i className="bi bi-calendar"></i> Date</th>
+                  <th><i className="bi bi-person"></i> Name</th>
+                  <th><i className="bi bi-telephone"></i> Phone</th>
+                  <th><i className="bi bi-currency-dollar"></i> Total</th>
+                  <th><i className="bi bi-flag"></i> Status</th>
                 </tr>
+              </thead>
+              <tbody>
                 {orders}
               </tbody>
             </table>
@@ -136,22 +146,30 @@ class Customer extends Component {
 
         {/* ORDER DETAIL */}
         {this.state.order && (
-          <div className="align-center">
-            <h2 className="text-center">ORDER DETAIL</h2>
-            <table className="datatable" border="1">
-              <tbody>
-                <tr className="datatable">
-                  <th>No.</th>
-                  <th>Prod. ID</th>
-                  <th>Prod. name</th>
-                  <th>Image</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Amount</th>
-                </tr>
-                {items}
-              </tbody>
-            </table>
+          <div className="card">
+            <div className="card-header">
+              <h5 className="mb-0">
+                <i className="bi bi-file-earmark-text"></i> Order Details
+              </h5>
+            </div>
+            <div className="card-body">
+              <table className="datatable table">
+                <thead>
+                  <tr>
+                    <th><i className="bi bi-hash"></i> No.</th>
+                    <th><i className="bi bi-hash"></i> Product ID</th>
+                    <th><i className="bi bi-bag"></i> Product Name</th>
+                    <th><i className="bi bi-image"></i> Image</th>
+                    <th><i className="bi bi-currency-dollar"></i> Price</th>
+                    <th><i className="bi bi-box"></i> Qty</th>
+                    <th><i className="bi bi-calculator"></i> Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>

@@ -8,13 +8,14 @@ class Myprofile extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       txtUsername: "",
       txtPassword: "",
       txtName: "",
       txtPhone: "",
       txtEmail: "",
+      isLoading: false,
+      message: ""
     };
   }
 
@@ -24,90 +25,126 @@ class Myprofile extends Component {
     }
 
     return (
-      <div className="align-center">
-        <h2 className="text-center">MY PROFILE</h2>
+      <div className="customer-container">
+        <div className="profile-header">
+          <h2><i className="bi bi-person-circle"></i> My Profile</h2>
+          <p className="text-muted">Update your account information</p>
+        </div>
 
-        <form>
-          <table className="align-center">
-            <tbody>
-              <tr>
-                <td>Username</td>
-                <td>
-                  <input
-                    type="text"
-                    value={this.state.txtUsername}
-                    onChange={(e) => {
-                      this.setState({ txtUsername: e.target.value });
-                    }}
-                  />
-                </td>
-              </tr>
+        <div className="row justify-content-center">
+          <div className="col-lg-8">
+            <div className="profile-card">
+              <form onSubmit={(e) => this.btnUpdateClick(e)}>
+                <div className="row mb-4">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label className="form-label">
+                        <i className="bi bi-at"></i> Username
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={this.state.txtUsername}
+                        onChange={(e) => {
+                          this.setState({ txtUsername: e.target.value });
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
 
-              <tr>
-                <td>Password</td>
-                <td>
-                  <input
-                    type="password"
-                    value={this.state.txtPassword}
-                    onChange={(e) => {
-                      this.setState({ txtPassword: e.target.value });
-                    }}
-                  />
-                </td>
-              </tr>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label className="form-label">
+                        <i className="bi bi-key"></i> Password
+                      </label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        value={this.state.txtPassword}
+                        onChange={(e) => {
+                          this.setState({ txtPassword: e.target.value });
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
 
-              <tr>
-                <td>Name</td>
-                <td>
-                  <input
-                    type="text"
-                    value={this.state.txtName}
-                    onChange={(e) => {
-                      this.setState({ txtName: e.target.value });
-                    }}
-                  />
-                </td>
-              </tr>
+                <div className="row mb-4">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label className="form-label">
+                        <i className="bi bi-person-badge"></i> Full Name
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={this.state.txtName}
+                        onChange={(e) => {
+                          this.setState({ txtName: e.target.value });
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
 
-              <tr>
-                <td>Phone</td>
-                <td>
-                  <input
-                    type="tel"
-                    value={this.state.txtPhone}
-                    onChange={(e) => {
-                      this.setState({ txtPhone: e.target.value });
-                    }}
-                  />
-                </td>
-              </tr>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label className="form-label">
+                        <i className="bi bi-telephone"></i> Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        className="form-control"
+                        value={this.state.txtPhone}
+                        onChange={(e) => {
+                          this.setState({ txtPhone: e.target.value });
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
 
-              <tr>
-                <td>Email</td>
-                <td>
-                  <input
-                    type="email"
-                    value={this.state.txtEmail}
-                    onChange={(e) => {
-                      this.setState({ txtEmail: e.target.value });
-                    }}
-                  />
-                </td>
-              </tr>
+                <div className="row mb-4">
+                  <div className="col-12">
+                    <div className="form-group">
+                      <label className="form-label">
+                        <i className="bi bi-envelope"></i> Email Address
+                      </label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        value={this.state.txtEmail}
+                        onChange={(e) => {
+                          this.setState({ txtEmail: e.target.value });
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
 
-              <tr>
-                <td></td>
-                <td>
-                  <input
+                {this.state.message && (
+                  <div className="alert alert-info mb-3">
+                    {this.state.message}
+                  </div>
+                )}
+
+                <div className="form-actions">
+                  <button
                     type="submit"
-                    value="UPDATE"
-                    onClick={(e) => this.btnUpdateClick(e)}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </form>
+                    className="btn-update"
+                    disabled={this.state.isLoading}
+                  >
+                    <i className="bi bi-check-circle"></i> {this.state.isLoading ? "Updating..." : "Update Profile"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -134,6 +171,7 @@ class Myprofile extends Component {
     const email = this.state.txtEmail;
 
     if (username && password && name && phone && email) {
+      this.setState({ isLoading: true });
       const customer = {
         username: username,
         password: password,
@@ -144,7 +182,7 @@ class Myprofile extends Component {
 
       this.apiPutCustomer(this.context.customer._id, customer);
     } else {
-      alert("Please input username and password and name and phone and email");
+      alert("Please fill in all fields");
     }
   }
 
@@ -154,14 +192,21 @@ class Myprofile extends Component {
     };
 
     axios.put("/api/customer/customers/" + id, customer, config).then((res) => {
+      this.setState({ isLoading: false });
       const result = res.data;
 
       if (result) {
-        alert("OK BABY!");
+        this.setState({ message: "Profile updated successfully!" });
         this.context.setCustomer(result);
+        setTimeout(() => {
+          this.setState({ message: "" });
+        }, 3000);
       } else {
-        alert("SORRY BABY!");
+        alert("Update failed. Please try again.");
       }
+    }).catch(() => {
+      this.setState({ isLoading: false });
+      alert("Error updating profile");
     });
   }
 }

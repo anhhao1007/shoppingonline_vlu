@@ -17,50 +17,52 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="align-center">
-        <h2 className="text-center">CUSTOMER LOGIN</h2>
+      <div className="form-container">
+        <h2>
+          <i className="bi bi-box-arrow-in-right"></i> Customer Login
+        </h2>
 
-        <form>
-          <table className="align-center">
-            <tbody>
-              <tr>
-                <td>Username</td>
-                <td>
-                  <input
-                    type="text"
-                    value={this.state.txtUsername}
-                    onChange={(e) => {
-                      this.setState({ txtUsername: e.target.value });
-                    }}
-                  />
-                </td>
-              </tr>
+        <form onSubmit={(e) => this.btnLoginClick(e)}>
+          <div className="form-group">
+            <label className="form-label" htmlFor="username">Username</label>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              placeholder="Enter your username"
+              value={this.state.txtUsername}
+              onChange={(e) => {
+                this.setState({ txtUsername: e.target.value });
+              }}
+            />
+          </div>
 
-              <tr>
-                <td>Password</td>
-                <td>
-                  <input
-                    type="password"
-                    value={this.state.txtPassword}
-                    onChange={(e) => {
-                      this.setState({ txtPassword: e.target.value });
-                    }}
-                  />
-                </td>
-              </tr>
+          <div className="form-group">
+            <label className="form-label" htmlFor="password">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              placeholder="Enter your password"
+              value={this.state.txtPassword}
+              onChange={(e) => {
+                this.setState({ txtPassword: e.target.value });
+              }}
+            />
+          </div>
 
-              <tr>
-                <td></td>
-                <td>
-                  <input
-                    type="submit"
-                    value="LOGIN"
-                    onClick={(e) => this.btnLoginClick(e)}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <button type="submit" className="btn-submit">
+            <i className="bi bi-check-circle"></i> Login
+          </button>
+
+          <div className="text-center mt-3">
+            <p className="text-muted">Don't have an account? <span 
+              className="link-btn" 
+              onClick={() => this.props.navigate('/signup')}
+            >
+              Sign up now
+            </span></p>
+          </div>
         </form>
       </div>
     );

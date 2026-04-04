@@ -20,30 +20,32 @@ class Main extends Component {
         <Menu />
         <Inform />
 
-        <Routes>
-          {/* default route */}
-          <Route path="/" element={<Navigate replace to="/home" />} />
+        <div className="py-4">
+          <Routes>
+            {/* default route */}
+            <Route path="/" element={<Navigate replace to="/home" />} />
 
-          {/* main pages */}
-          <Route path="/home" element={<Home />} />
+            {/* main pages */}
+            <Route path="/home" element={<Home />} />
 
-          {/* product */}
-          <Route path="/product/category/:cid" element={<Product />} />
-          <Route path="/product/search/:keyword" element={<Product />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
+            {/* product */}
+            <Route path="/product/category/:cid" element={<Product />} />
+            <Route path="/product/search/:keyword" element={<Product />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
 
-          {/* account */}
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/active" element={<Active />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/myprofile" element={<Myprofile />} />
+            {/* account */}
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/active" element={<Active />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/myprofile" element={<Myprofile />} />
 
-          {/* cart */}
-          <Route path="/mycart" element={<Mycart />} />
+            {/* cart */}
+            <Route path="/mycart" element={<Mycart />} />
 
-          {/* orders */}
-          <Route path="/myorders" element={<Myorders />} />
-        </Routes>
+            {/* orders */}
+            <Route path="/myorders" element={<Myorders />} />
+          </Routes>
+        </div>
       </div>
     );
   }

@@ -19,77 +19,105 @@ class ProductDetail extends Component {
 
     if (prod != null) {
       return (
-        <div className="align-center">
-          <h2 className="text-center">PRODUCT DETAILS</h2>
+        <div className="product-detail-container">
+          <div className="product-detail-wrapper">
+            {/* Image Section */}
+            <div className="product-detail-image">
+              <img
+                src={"data:image/jpg;base64," + prod.image}
+                alt={prod.name}
+                className="detail-image"
+              />
+            </div>
 
-          <figure className="caption-right">
-            <img
-              src={"data:image/jpg;base64," + prod.image}
-              width="400px"
-              height="400px"
-              alt=""
-            />
+            {/* Info Section */}
+            <div className="product-detail-info">
+              <div className="detail-header">
+                <h1 className="detail-title">{prod.name}</h1>
+                <p className="detail-id">Product ID: {prod._id}</p>
+              </div>
 
-            <figcaption>
-              <form>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td align="right">ID:</td>
-                      <td>{prod._id}</td>
-                    </tr>
+              <div className="detail-price-section">
+                <div className="price-display">
+                  <span className="currency">₫</span>
+                  <span className="price-value">{prod.price.toLocaleString('vi-VN')}</span>
+                </div>
+              </div>
 
-                    <tr>
-                      <td align="right">Name:</td>
-                      <td>{prod.name}</td>
-                    </tr>
+              <div className="detail-meta">
+                <div className="meta-item">
+                  <span className="meta-label">Category:</span>
+                  <span className="meta-value">{prod.category.name}</span>
+                </div>
+              </div>
 
-                    <tr>
-                      <td align="right">Price:</td>
-                      <td>{prod.price}</td>
-                    </tr>
+              <div className="detail-divider"></div>
 
-                    <tr>
-                      <td align="right">Category:</td>
-                      <td>{prod.category.name}</td>
-                    </tr>
+              {/* Quantity & Add to Cart */}
+              <div className="detail-actions">
+                <div className="quantity-selector">
+                  <label className="qty-label">Quantity:</label>
+                  <div className="qty-controls">
+                    <button
+                      type="button"
+                      className="qty-btn-dec"
+                      onClick={() =>
+                        this.setState({
+                          txtQuantity: Math.max(1, parseInt(this.state.txtQuantity) - 1)
+                        })
+                      }
+                      title="Decrease quantity"
+                    >
+                      −
+                    </button>
+                    <input
+                      type="number"
+                      min="1"
+                      max="99"
+                      value={this.state.txtQuantity}
+                      onChange={(e) =>
+                        this.setState({ txtQuantity: e.target.value })
+                      }
+                      className="qty-input"
+                    />
+                    <button
+                      type="button"
+                      className="qty-btn-inc"
+                      onClick={() =>
+                        this.setState({
+                          txtQuantity: Math.min(99, parseInt(this.state.txtQuantity) + 1)
+                        })
+                      }
+                      title="Increase quantity"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
 
-                    <tr>
-                      <td align="right">Quantity:</td>
-                      <td>
-                        <input
-                          type="number"
-                          min="1"
-                          max="99"
-                          value={this.state.txtQuantity}
-                          onChange={(e) =>
-                            this.setState({ txtQuantity: e.target.value })
-                          }
-                        />
-                      </td>
-                    </tr>
+                <button
+                  className="btn-add-to-cart"
+                  onClick={(e) => this.btnAdd2CartClick(e)}
+                  title="Add this product to your cart"
+                >
+                  <i className="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
 
-                    <tr>
-                      <td></td>
-                      <td>
-                        <input
-                          type="submit"
-                          value="ADD TO CART"
-                          onClick={(e) => this.btnAdd2CartClick(e)}
-                        />
-                      </td>
-                    </tr>
-
-                  </tbody>
-                </table>
-              </form>
-            </figcaption>
-          </figure>
+              <div className="detail-note">
+                <p><i className="fas fa-info-circle"></i> Free shipping on orders over 200.000₫</p>
+              </div>
+            </div>
+          </div>
         </div>
       );
     }
 
-    return <div />;
+    return (
+      <div className="loading-state">
+        <p>Loading product details...</p>
+      </div>
+    );
   }
 
   componentDidMount() {
@@ -107,7 +135,7 @@ class ProductDetail extends Component {
     const quantity = parseInt(this.state.txtQuantity);
 
     if (quantity) {
-      const mycart = this.context.mycart;
+      const mycart = [...this.context.mycart];
 
       const index = mycart.findIndex(
         (x) => x.product._id === product._id
@@ -125,9 +153,9 @@ class ProductDetail extends Component {
 
       this.context.setMycart(mycart);
 
-      alert("OK BABY!");
+      alert("✓ Product added to cart successfully!");
     } else {
-      alert("Please input quantity");
+      alert("⚠ Please enter a valid quantity (minimum 1)");
     }
   }
 

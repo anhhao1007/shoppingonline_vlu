@@ -5,6 +5,11 @@ import MyContext from "../contexts/MyContext";
 class Inform extends Component {
   static contextType = MyContext;
 
+  // Calculate total quantity of all items in cart
+  getTotalQuantity() {
+    return this.context.mycart.reduce((total, item) => total + item.quantity, 0);
+  }
+
   render() {
     return (
       <div className="border-bottom">
@@ -32,7 +37,7 @@ class Inform extends Component {
         {/* RIGHT SIDE */}
         <div className="float-right">
           <Link to="/mycart">My cart</Link> have{" "}
-          <b>{this.context.mycart.length}</b> items
+          <b>{this.getTotalQuantity()}</b> item(s)
         </div>
 
         <div className="float-clear" />

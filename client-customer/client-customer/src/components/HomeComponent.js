@@ -23,22 +23,31 @@ class Home extends Component {
               <img
                 src={"data:image/jpg;base64," + item.image}
                 alt={item.name}
+                crossOrigin="anonymous"
               />
             </Link>
             <span className="product-badge">NEW</span>
           </div>
           <div className="product-info">
+            <span className="product-category">New Arrival</span>
             <h5 className="product-name">{item.name}</h5>
+            <div className="product-rating">
+              <i className="bi bi-star-fill"></i>
+              <i className="bi bi-star-fill"></i>
+              <i className="bi bi-star-fill"></i>
+              <i className="bi bi-star-fill"></i>
+              <i className="bi bi-star-half"></i>
+            </div>
             <div className="product-price">
-              <span className="price-current">${item.price}</span>
+              <span className="current">${item.price}</span>
             </div>
             <div className="product-actions">
-              <Link to={'/product/' + item._id} className="btn btn-view">
-                <i className="bi bi-eye"></i> View
+              <Link to={'/product/' + item._id} className="btn-add">
+                <i className="bi bi-bag-plus"></i> View
               </Link>
-              <button className="btn btn-cart" 
-                onClick={() => this.addToCart(item)}>
-                <i className="bi bi-cart-plus"></i> Cart
+              <button className="btn-wishlist" 
+                onClick={() => this.addToCart(item)} title="Add to cart">
+                <i className="bi bi-heart"></i>
               </button>
             </div>
           </div>
@@ -54,24 +63,33 @@ class Home extends Component {
               <img
                 src={"data:image/jpg;base64," + item.image}
                 alt={item.name}
+                crossOrigin="anonymous"
               />
             </Link>
-            <span className="product-badge" style={{ backgroundColor: '#f39c12' }}>
+            <span className="product-badge" style={{ background: 'linear-gradient(135deg, #d4af37 0%, #c9a017 100%)' }}>
               HOT
             </span>
           </div>
           <div className="product-info">
+            <span className="product-category">Popular</span>
             <h5 className="product-name">{item.name}</h5>
+            <div className="product-rating">
+              <i className="bi bi-star-fill"></i>
+              <i className="bi bi-star-fill"></i>
+              <i className="bi bi-star-fill"></i>
+              <i className="bi bi-star-fill"></i>
+              <i className="bi bi-star-fill"></i>
+            </div>
             <div className="product-price">
-              <span className="price-current">${item.price}</span>
+              <span className="current">${item.price}</span>
             </div>
             <div className="product-actions">
-              <Link to={'/product/' + item._id} className="btn btn-view">
-                <i className="bi bi-eye"></i> View
+              <Link to={'/product/' + item._id} className="btn-add">
+                <i className="bi bi-bag-plus"></i> View
               </Link>
-              <button className="btn btn-cart" 
-                onClick={() => this.addToCart(item)}>
-                <i className="bi bi-cart-plus"></i> Cart
+              <button className="btn-wishlist" 
+                onClick={() => this.addToCart(item)} title="Add to cart">
+                <i className="bi bi-heart"></i>
               </button>
             </div>
           </div>
@@ -80,39 +98,42 @@ class Home extends Component {
     });
 
     return (
-      <div className="customer-container">
+      <div>
         {/* HERO SECTION */}
-        <div className="hero-section">
-          <h1><i className="bi bi-lightning-fill"></i> Welcome to Shopping Store</h1>
-          <p>Discover amazing products at great prices</p>
-        </div>
-
-        {/* NEW PRODUCTS */}
-        <div className="products-section">
-          <div className="section-header">
-            <h2><i className="bi bi-star"></i> NEW PRODUCTS</h2>
-            <Link to="/product/search" className="view-more">
-              View All <i className="bi bi-arrow-right"></i>
+        <section className="home-hero">
+          <div className="home-hero-content">
+            <h1><span className="gold">Premium</span> Mobile Phones</h1>
+            <p>Discover the latest and greatest smartphones at unbeatable prices</p>
+            <Link to="/product/search" className="btn-primary">
+              <i className="bi bi-lightning-fill"></i> Shop Now
             </Link>
           </div>
-          <div className="products-grid">
-            {newprods}
+        </section>
+
+        {/* NEW PRODUCTS */}
+        <section className="featured-products">
+          <div className="container-fluid">
+            <h2>
+              <i className="bi bi-star"></i> New Arrivals
+            </h2>
+            <div className="products-grid">
+              {newprods}
+            </div>
           </div>
-        </div>
+        </section>
 
         {/* HOT PRODUCTS */}
         {this.state.hotprods.length > 0 && (
-          <div className="products-section">
-            <div className="section-header">
-              <h2><i className="bi bi-fire"></i> HOT PRODUCTS</h2>
-              <Link to="/product/search" className="view-more">
-                View All <i className="bi bi-arrow-right"></i>
-              </Link>
+          <section className="featured-products" style={{ background: '#1a1a2e' }}>
+            <div className="container-fluid">
+              <h2 style={{ color: '#d4af37', marginBottom: 'var(--spacing-3xl)' }}>
+                <i className="bi bi-fire"></i> Trending Now
+              </h2>
+              <div className="products-grid">
+                {hotprods}
+              </div>
             </div>
-            <div className="products-grid">
-              {hotprods}
-            </div>
-          </div>
+          </section>
         )}
       </div>
     );

@@ -19,48 +19,104 @@ class ProductDetail extends Component {
 
     if (prod != null) {
       return (
-        <div className="product-detail-container">
-          <div className="product-detail-wrapper">
+        <section className="product-detail">
+          <div className="product-detail-container">
             {/* Image Section */}
             <div className="product-detail-image">
               <img
                 src={"data:image/jpg;base64," + prod.image}
                 alt={prod.name}
-                className="detail-image"
+                crossOrigin="anonymous"
               />
+              <div className="product-detail-gallery">
+                <img
+                  src={"data:image/jpg;base64," + prod.image}
+                  alt={prod.name}
+                  className="active"
+                  crossOrigin="anonymous"
+                />
+                <img
+                  src={"data:image/jpg;base64," + prod.image}
+                  alt={prod.name}
+                  style={{ opacity: 0.6 }}
+                  crossOrigin="anonymous"
+                />
+                <img
+                  src={"data:image/jpg;base64," + prod.image}
+                  alt={prod.name}
+                  style={{ opacity: 0.6 }}
+                  crossOrigin="anonymous"
+                />
+                <img
+                  src={"data:image/jpg;base64," + prod.image}
+                  alt={prod.name}
+                  style={{ opacity: 0.6 }}
+                  crossOrigin="anonymous"
+                />
+              </div>
             </div>
 
             {/* Info Section */}
             <div className="product-detail-info">
-              <div className="detail-header">
-                <h1 className="detail-title">{prod.name}</h1>
-                <p className="detail-id">Product ID: {prod._id}</p>
+              <h1>{prod.name}</h1>
+
+              <div className="product-detail-rating">
+                <div className="stars">
+                  <i className="bi bi-star-fill"></i>
+                  <i className="bi bi-star-fill"></i>
+                  <i className="bi bi-star-fill"></i>
+                  <i className="bi bi-star-fill"></i>
+                  <i className="bi bi-star-half"></i>
+                </div>
+                <span className="count">(247 reviews)</span>
               </div>
 
-              <div className="detail-price-section">
-                <div className="price-display">
-                  <span className="currency">₫</span>
-                  <span className="price-value">{prod.price.toLocaleString('vi-VN')}</span>
+              <div className="product-detail-price">
+                <div className="current">${prod.price}</div>
+                <div className="original" style={{ display: 'none' }}>$599</div>
+                <div style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-sm)', marginTop: 'var(--spacing-sm)' }}>
+                  <i className="bi bi-lightning-charge"></i> Flash Sale ends in 2:30
                 </div>
               </div>
 
-              <div className="detail-meta">
-                <div className="meta-item">
-                  <span className="meta-label">Category:</span>
-                  <span className="meta-value">{prod.category.name}</span>
-                </div>
+              <div className="product-detail-description">
+                <h3>Description</h3>
+                <p>
+                  Experience premium smartphone technology with this flagship device. Features latest processor,
+                  stunning display, and professional-grade camera system. Perfect for photography, gaming, and everyday use.
+                </p>
               </div>
 
-              <div className="detail-divider"></div>
+              <div className="product-detail-specs">
+                <div className="spec-item">
+                  <span className="spec-label">Category</span>
+                  <span className="spec-value">{prod.category?.name || "Electronics"}</span>
+                </div>
+                <div className="spec-item">
+                  <span className="spec-label">Brand</span>
+                  <span className="spec-value">Premium Brand</span>
+                </div>
+                <div className="spec-item">
+                  <span className="spec-label">Stock Status</span>
+                  <span className="spec-value" style={{ color: 'var(--primary-green)' }}>
+                    <i className="bi bi-check-circle"></i> In Stock
+                  </span>
+                </div>
+                <div className="spec-item">
+                  <span className="spec-label">Warranty</span>
+                  <span className="spec-value">12 Months</span>
+                </div>
+              </div>
 
               {/* Quantity & Add to Cart */}
-              <div className="detail-actions">
-                <div className="quantity-selector">
-                  <label className="qty-label">Quantity:</label>
-                  <div className="qty-controls">
+              <div className="product-detail-quantity">
+                <div>
+                  <label style={{ fontWeight: 'var(--font-semibold)', display: 'block', marginBottom: 'var(--spacing-sm)' }}>
+                    Select Quantity:
+                  </label>
+                  <div className="quantity-control">
                     <button
                       type="button"
-                      className="qty-btn-dec"
                       onClick={() =>
                         this.setState({
                           txtQuantity: Math.max(1, parseInt(this.state.txtQuantity) - 1)
@@ -76,13 +132,11 @@ class ProductDetail extends Component {
                       max="99"
                       value={this.state.txtQuantity}
                       onChange={(e) =>
-                        this.setState({ txtQuantity: e.target.value })
+                        this.setState({ txtQuantity: Math.max(1, parseInt(e.target.value) || 1) })
                       }
-                      className="qty-input"
                     />
                     <button
                       type="button"
-                      className="qty-btn-inc"
                       onClick={() =>
                         this.setState({
                           txtQuantity: Math.min(99, parseInt(this.state.txtQuantity) + 1)
@@ -94,28 +148,52 @@ class ProductDetail extends Component {
                     </button>
                   </div>
                 </div>
+              </div>
 
+              <div className="product-detail-actions">
                 <button
-                  className="btn-add-to-cart"
+                  className="btn-add-cart"
                   onClick={(e) => this.btnAdd2CartClick(e)}
                   title="Add this product to your cart"
                 >
-                  <i className="fas fa-shopping-cart"></i> Add to Cart
+                  <i className="bi bi-bag-check"></i> Add to Cart
+                </button>
+                <button
+                  className="btn-wishlist"
+                  title="Add to wishlist"
+                >
+                  <i className="bi bi-heart"></i> Wishlist
                 </button>
               </div>
 
-              <div className="detail-note">
-                <p><i className="fas fa-info-circle"></i> Free shipping on orders over 200.000₫</p>
+              <div style={{
+                marginTop: 'var(--spacing-xl)',
+                padding: 'var(--spacing-lg)',
+                background: 'var(--bg-secondary)',
+                borderRadius: 'var(--radius-md)',
+                borderLeft: '4px solid var(--primary-accent)'
+              }}>
+                <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: 'var(--font-sm)' }}>
+                  <i className="bi bi-truck"></i> Free shipping on orders over $100
+                </p>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       );
     }
 
     return (
-      <div className="loading-state">
-        <p>Loading product details...</p>
+      <div style={{
+        textAlign: 'center',
+        padding: 'var(--spacing-3xl)',
+        background: 'var(--bg-card)',
+        borderRadius: 'var(--radius-lg)',
+        margin: 'var(--spacing-2xl)'
+      }}>
+        <p style={{ color: 'var(--text-secondary)' }}>
+          <i className="bi bi-hourglass-split"></i> Loading product details...
+        </p>
       </div>
     );
   }

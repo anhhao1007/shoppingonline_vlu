@@ -17,53 +17,68 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="form-container">
-        <h2>
-          <i className="bi bi-box-arrow-in-right"></i> Customer Login
-        </h2>
-
-        <form onSubmit={(e) => this.btnLoginClick(e)}>
-          <div className="form-group">
-            <label className="form-label" htmlFor="username">Username</label>
-            <input
-              type="text"
-              className="form-control"
-              id="username"
-              placeholder="Enter your username"
-              value={this.state.txtUsername}
-              onChange={(e) => {
-                this.setState({ txtUsername: e.target.value });
-              }}
-            />
+      <div className="auth-container">
+        <div className="form-wrapper">
+          <div className="form-header">
+            <i className="bi bi-box-arrow-in-right"></i>
+            <h2>Welcome Back</h2>
           </div>
 
-          <div className="form-group">
-            <label className="form-label" htmlFor="password">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Enter your password"
-              value={this.state.txtPassword}
-              onChange={(e) => {
-                this.setState({ txtPassword: e.target.value });
-              }}
-            />
-          </div>
+          <div className="form-body">
+            <p className="form-subtitle">
+              Sign in to your account to continue shopping
+            </p>
 
-          <button type="submit" className="btn-submit">
-            <i className="bi bi-check-circle"></i> Login
-          </button>
+            <form onSubmit={(e) => this.btnLoginClick(e)}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="username">
+                  <i className="bi bi-person"></i> Username
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="username"
+                  placeholder="Enter your username"
+                  value={this.state.txtUsername}
+                  onChange={(e) => {
+                    this.setState({ txtUsername: e.target.value });
+                  }}
+                />
+              </div>
 
-          <div className="text-center mt-3">
-            <p className="text-muted">Don't have an account? <span 
-              className="link-btn" 
-              onClick={() => this.props.navigate('/signup')}
-            >
-              Sign up now
-            </span></p>
+              <div className="form-group">
+                <label className="form-label" htmlFor="password">
+                  <i className="bi bi-lock"></i> Password
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  placeholder="Enter your password"
+                  value={this.state.txtPassword}
+                  onChange={(e) => {
+                    this.setState({ txtPassword: e.target.value });
+                  }}
+                />
+              </div>
+
+              <button type="submit" className="btn-submit">
+                <i className="bi bi-check-circle"></i> Sign In
+              </button>
+            </form>
+
+            <div className="text-center">
+              <p className="text-muted">
+                Don&apos;t have an account? <span 
+                  className="link-btn" 
+                  onClick={() => this.props.navigate('/signup')}
+                >
+                  Create one
+                </span>
+              </p>
+            </div>
           </div>
-        </form>
+        </div>
       </div>
     );
   }

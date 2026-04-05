@@ -10,23 +10,32 @@ class Mycart extends Component {
   render() {
     const mycart = this.context.mycart.map((item, index) => {
       return (
-        <div key={item.product._id} className="cart-item-card">
-          <div className="row align-items-center">
-            <div className="col-md-2">
+        <tr key={item.product._id}>
+          <td className="cart-item-cell">
+            <div className="cart-item-image">
               <img
                 src={"data:image/jpg;base64," + item.product.image}
                 alt={item.product.name}
-                className="cart-item-image"
+                crossOrigin="anonymous"
               />
             </div>
-            <div className="col-md-3">
-              <h6 className="cart-item-name">{item.product.name}</h6>
-              <small className="text-muted">{item.product.category.name}</small>
+          </td>
+          <td className="cart-item-cell">
+            <div className="cart-item-info">
+              <div className="cart-item-details">
+                <h3>{item.product.name}</h3>
+                <p>{item.product.category?.name || "Accessories"}</p>
+              </div>
             </div>
-            <div className="col-md-2">
-              <div className="cart-price">${item.product.price.toFixed(2)}</div>
+          </td>
+          <td className="cart-item-cell">
+            <div className="cart-item-price">
+              <small className="cart-item-price-label">Price</small>
+              <div className="cart-item-price-value">${item.product.price.toFixed(2)}</div>
             </div>
-            <div className="col-md-2">
+          </td>
+          <td className="cart-item-cell">
+            <div className="cart-item-quantity">
               <div className="quantity-control">
                 <button 
                   className="qty-btn" 
@@ -34,7 +43,7 @@ class Mycart extends Component {
                 >
                   −
                 </button>
-                <span className="qty-value">{item.quantity}</span>
+                <input type="text" value={item.quantity} readOnly />
                 <button 
                   className="qty-btn" 
                   onClick={() => this.increaseQuantity(item.product._id)}
@@ -43,71 +52,89 @@ class Mycart extends Component {
                 </button>
               </div>
             </div>
-            <div className="col-md-2">
-              <div className="cart-subtotal">
+          </td>
+          <td className="cart-item-cell">
+            <div className="cart-item-total">
+              <small className="text-muted">Subtotal</small>
+              <div className="cart-item-total-value">
                 ${(item.product.price * item.quantity).toFixed(2)}
               </div>
             </div>
-            <div className="col-md-1 text-center">
-              <button
-                className="btn-remove"
-                onClick={() => this.lnkRemoveClick(item.product._id)}
-                title="Remove from cart"
-              >
-                <i className="bi bi-trash"></i>
-              </button>
-            </div>
-          </div>
-        </div>
+          </td>
+          <td className="cart-item-cell">
+            <button
+              className="btn-remove"
+              onClick={() => this.lnkRemoveClick(item.product._id)}
+              title="Remove from cart"
+            >
+              <i className="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
       );
     });
 
     const total = CartUtil.getTotal(this.context.mycart);
-
-    // Calculate total quantity
     const totalQuantity = this.context.mycart.reduce((sum, item) => sum + item.quantity, 0);
+    const shipping = 0;
+    const tax = total * 0.1;
+    const grandTotal = total + shipping + tax;
 
     return (
-      <div className="customer-container">
+      <div className="cart-container">
         <div className="cart-header">
-          <h2><i className="bi bi-cart3"></i> Shopping Cart</h2>
-          <p className="text-muted">{totalQuantity} item(s)</p>
+          <h1>
+            <i className="bi bi-cart3"></i> Shopping Cart
+          </h1>
+          <p>You have <span className="item-count">{totalQuantity}</span> item(s) in your cart</p>
         </div>
 
         {this.context.mycart.length > 0 ? (
-          <div className="row">
-            <div className="col-lg-8">
-              <div className="cart-items">
-                {mycart}
-              </div>
+          <div className="cart-content">
+            <div className="cart-items">
+              <table className="cart-items-table">
+                <thead className="cart-items-thead">
+                  <tr>
+                    <th>Product</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody className="cart-items-tbody">
+                  {mycart}
+                </tbody>
+              </table>
             </div>
 
-            <div className="col-lg-4">
-              <div className="cart-summary">
-                <h5><i className="bi bi-receipt"></i> Order Summary</h5>
-                
-                <div className="summary-row">
-                  <span>Subtotal:</span>
-                  <span>${total.toFixed(2)}</span>
-                </div>
-                
-                <div className="summary-row">
-                  <span>Shipping:</span>
-                  <span className="text-success">Free</span>
-                </div>
-                
-                <div className="summary-row">
-                  <span>Tax:</span>
-                  <span>$0.00</span>
-                </div>
+            <div className="cart-summary">
+              <div className="summary-header">
+                <h2>Order Summary</h2>
+              </div>
 
-                <hr />
+              <div className="summary-row">
+                <span className="summary-label">Subtotal</span>
+                <span className="summary-value">${total.toFixed(2)}</span>
+              </div>
 
-                <div className="summary-total">
-                  <span>Total:</span>
-                  <span>${total.toFixed(2)}</span>
-                </div>
+              <div className="summary-row">
+                <span className="summary-label">Shipping</span>
+                <span className="summary-value text-gold">Free</span>
+              </div>
 
+              <div className="summary-row">
+                <span className="summary-label">Tax (10%)</span>
+                <span className="summary-value">${tax.toFixed(2)}</span>
+              </div>
+
+              <div className="summary-row total">
+                <span>Total</span>
+                <span>${grandTotal.toFixed(2)}</span>
+              </div>
+
+              <div className="summary-actions">
                 <button
                   className="btn-checkout"
                   onClick={() => this.lnkCheckoutClick()}
@@ -123,18 +150,52 @@ class Mycart extends Component {
                   <i className="bi bi-arrow-left"></i> Continue Shopping
                 </button>
               </div>
+
+              <div className="summary-promo">
+                <div className="promo-input-group">
+                  <input 
+                    type="text" 
+                    className="promo-input" 
+                    placeholder="Promo code"
+                  />
+                  <button className="btn-apply">Apply</button>
+                </div>
+              </div>
+
+              <div className="cart-benefits">
+                <div className="benefit-item">
+                  <div className="benefit-icon">
+                    <i className="bi bi-truck"></i>
+                  </div>
+                  <p className="benefit-text">Fast Shipping</p>
+                </div>
+                <div className="benefit-item">
+                  <div className="benefit-icon">
+                    <i className="bi bi-shield-check"></i>
+                  </div>
+                  <p className="benefit-text">Secure Payment</p>
+                </div>
+                <div className="benefit-item">
+                  <div className="benefit-icon">
+                    <i className="bi bi-arrow-return-left"></i>
+                  </div>
+                  <p className="benefit-text">Easy Returns</p>
+                </div>
+              </div>
             </div>
           </div>
         ) : (
           <div className="empty-cart">
-            <i className="bi bi-cart-x"></i>
-            <h4>Your cart is empty</h4>
-            <p>Add some products to get started!</p>
+            <div className="empty-cart-icon">
+              <i className="bi bi-cart-x"></i>
+            </div>
+            <h2>Your cart is empty</h2>
+            <p>You haven&apos;t added any products yet. Start shopping now to find amazing deals!</p>
             <button 
-              className="btn-primary"
+              className="btn-shop"
               onClick={() => this.props.navigate("/home")}
             >
-              Start Shopping
+              <i className="bi bi-bag-plus"></i> Start Shopping
             </button>
           </div>
         )}

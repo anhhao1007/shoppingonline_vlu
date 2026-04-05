@@ -12,35 +12,54 @@ class Inform extends Component {
 
   render() {
     return (
-      <div className="border-bottom">
+      <div className="inform-bar">
+        <div className="container-fluid">
+          {/* LEFT SIDE - AUTH LINKS */}
+          <div className="inform-left">
+            {this.context.token === "" ? (
+              <>
+                <Link to="/login">
+                  <i className="bi bi-box-arrow-in-right"></i> Login
+                </Link>
+                <span>|</span>
+                <Link to="/signup">
+                  <i className="bi bi-person-plus"></i> Sign-up
+                </Link>
+                <span>|</span>
+                <Link to="/active">
+                  <i className="bi bi-shield-check"></i> Activate
+                </Link>
+              </>
+            ) : (
+              <>
+                <div className="customer-greeting">
+                  <i className="bi bi-person-circle"></i>
+                  Hello <span className="customer-name">{this.context.customer.name}</span>
+                </div>
+                <span>|</span>
+                <Link to="/myprofile">
+                  <i className="bi bi-gear"></i> My profile
+                </Link>
+                <span>|</span>
+                <Link to="/myorders">
+                  <i className="bi bi-bag-check"></i> My orders
+                </Link>
+                <span>|</span>
+                <Link to="/home" onClick={() => this.lnkLogoutClick()}>
+                  <i className="bi bi-box-arrow-right"></i> Logout
+                </Link>
+              </>
+            )}
+          </div>
 
-        {/* LEFT SIDE */}
-        <div className="float-left">
-          {this.context.token === "" ? (
-            <div>
-              <Link to="/login">Login</Link> |{" "}
-              <Link to="/signup">Sign-up</Link> |{" "}
-              <Link to="/active">Active</Link>
-            </div>
-          ) : (
-            <div>
-              Hello <b>{this.context.customer.name}</b> |{" "}
-              <Link to="/home" onClick={() => this.lnkLogoutClick()}>
-                Logout
-              </Link>{" "}
-              | <Link to="/myprofile">My profile</Link> |{" "}
-              <Link to="/myorders">My orders</Link>
-            </div>
-          )}
+          {/* RIGHT SIDE - CART */}
+          <div className="inform-right">
+            <Link to="/mycart">
+              <i className="bi bi-cart3"></i> My cart
+            </Link>
+            have <b>{this.getTotalQuantity()}</b> item(s)
+          </div>
         </div>
-
-        {/* RIGHT SIDE */}
-        <div className="float-right">
-          <Link to="/mycart">My cart</Link> have{" "}
-          <b>{this.getTotalQuantity()}</b> item(s)
-        </div>
-
-        <div className="float-clear" />
       </div>
     );
   }

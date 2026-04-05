@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+import withRouter from "../utils/withRouter";
 
 class Signup extends Component {
 
@@ -16,93 +17,95 @@ class Signup extends Component {
 
   render() {
     return (
-      <div className="align-center">
-        <h2 className="text-center">SIGN-UP</h2>
+      <div className="form-container signup-form">
+        <h2>
+          <i className="bi bi-person-plus"></i> Create Account
+        </h2>
 
-        <form>
-          <table className="align-center">
-            <tbody>
+        <form onSubmit={(e) => this.btnSignupClick(e)}>
+          <div className="form-group">
+            <label className="form-label" htmlFor="username">Username</label>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              placeholder="Choose a unique username"
+              value={this.state.txtUsername}
+              onChange={(e) => {
+                this.setState({ txtUsername: e.target.value })
+              }}
+            />
+          </div>
 
-              <tr>
-                <td>Username</td>
-                <td>
-                  <input
-                    type="text"
-                    value={this.state.txtUsername}
-                    onChange={(e) => {
-                      this.setState({ txtUsername: e.target.value })
-                    }}
-                  />
-                </td>
-              </tr>
+          <div className="form-group">
+            <label className="form-label" htmlFor="password">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              placeholder="Create a strong password"
+              value={this.state.txtPassword}
+              onChange={(e) => {
+                this.setState({ txtPassword: e.target.value })
+              }}
+            />
+          </div>
 
-              <tr>
-                <td>Password</td>
-                <td>
-                  <input
-                    type="password"
-                    value={this.state.txtPassword}
-                    onChange={(e) => {
-                      this.setState({ txtPassword: e.target.value })
-                    }}
-                  />
-                </td>
-              </tr>
+          <div className="form-group">
+            <label className="form-label" htmlFor="name">Full Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              placeholder="Enter your full name"
+              value={this.state.txtName}
+              onChange={(e) => {
+                this.setState({ txtName: e.target.value })
+              }}
+            />
+          </div>
 
-              <tr>
-                <td>Name</td>
-                <td>
-                  <input
-                    type="text"
-                    value={this.state.txtName}
-                    onChange={(e) => {
-                      this.setState({ txtName: e.target.value })
-                    }}
-                  />
-                </td>
-              </tr>
+          <div className="form-group">
+            <label className="form-label" htmlFor="phone">Phone Number</label>
+            <input
+              type="tel"
+              className="form-control"
+              id="phone"
+              placeholder="Enter your phone number"
+              value={this.state.txtPhone}
+              onChange={(e) => {
+                this.setState({ txtPhone: e.target.value })
+              }}
+            />
+          </div>
 
-              <tr>
-                <td>Phone</td>
-                <td>
-                  <input
-                    type="tel"
-                    value={this.state.txtPhone}
-                    onChange={(e) => {
-                      this.setState({ txtPhone: e.target.value })
-                    }}
-                  />
-                </td>
-              </tr>
+          <div className="form-group">
+            <label className="form-label" htmlFor="email">Email Address</label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              placeholder="Enter your email address"
+              value={this.state.txtEmail}
+              onChange={(e) => {
+                this.setState({ txtEmail: e.target.value })
+              }}
+            />
+          </div>
 
-              <tr>
-                <td>Email</td>
-                <td>
-                  <input
-                    type="email"
-                    value={this.state.txtEmail}
-                    onChange={(e) => {
-                      this.setState({ txtEmail: e.target.value })
-                    }}
-                  />
-                </td>
-              </tr>
+          <button type="submit" className="btn-submit">
+            <i className="bi bi-check-circle"></i> Create Account
+          </button>
 
-              <tr>
-                <td></td>
-                <td>
-                  <input
-                    type="submit"
-                    value="SIGN-UP"
-                    onClick={(e) => this.btnSignupClick(e)}
-                  />
-                </td>
-              </tr>
-
-            </tbody>
-          </table>
+          <div className="text-center">
+            <p className="text-muted">Already have an account? <span 
+              className="link-btn" 
+              onClick={() => this.props.navigate('/login')}
+            >
+              Log in here
+            </span></p>
+          </div>
         </form>
-
       </div>
     );
   }
@@ -138,4 +141,4 @@ class Signup extends Component {
 
 }
 
-export default Signup;
+export default withRouter(Signup);

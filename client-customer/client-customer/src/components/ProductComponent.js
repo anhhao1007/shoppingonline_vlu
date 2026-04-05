@@ -10,122 +10,150 @@ class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: []
+      products: [],
+      loading: true
     };
   }
 
+  // ================== RENDER ==================
   render() {
-    const prods = this.state.products.map((item) => {
-      return (
-        <div key={item._id} className="product-card">
-          <div className="product-image">
-            <Link to={'/product/' + item._id}>
-              <img
-                src={"data:image/jpg;base64," + item.image}
-                alt={item.name}
-              />
+    const products = Array.isArray(this.state.products)
+      ? this.state.products
+      : [];
+
+    const prods = products.map((item) => (
+      <div key={item._id} className="product-card">
+        <div className="product-image">
+          <Link to={'/product/' + item._id}>
+            <img
+              src={
+                item.image
+                  ? "data:image/jpg;base64," + item.image
+                  : "/no-image.png"
+              }
+              alt={item.name}
+            />
+          </Link>
+        </div>
+
+        <div className="product-info">
+          <span className="product-category">
+            {item.category?.name || "Product"}
+          </span>
+
+          <h5 className="product-name">{item.name}</h5>
+
+          <div className="product-price">
+            <span className="current">${item.price}</span>
+          </div>
+
+          <div className="product-actions">
+            <Link to={'/product/' + item._id} className="btn-add">
+              View
             </Link>
-          </div>
-          <div className="product-info">
-            <h5 className="product-name">{item.name}</h5>
-            <div className="product-price">
-              <span className="price-current">${item.price}</span>
-            </div>
-            <div className="product-actions">
-              <Link to={'/product/' + item._id} className="btn btn-view">
-                <i className="bi bi-eye"></i> View
-              </Link>
-              <button className="btn btn-cart" onClick={() => this.addToCart(item)}>
-                <i className="bi bi-cart-plus"></i> Cart
-              </button>
-            </div>
-          </div>
-        </div>
-      );
-    });
 
-    return (
-      <div className="customer-container">
-        <div className="mb-4">
-          <h2 className="mb-3">
-            <i className="bi bi-bag"></i> Products
-          </h2>
-          {this.state.products.length === 0 && (
-            <div className="alert alert-info">
-              <i className="bi bi-info-circle"></i> No products found
-            </div>
-          )}
-        </div>
-
-        <div className="products-grid">
-          {prods}
+            <button
+              className="btn-wishlist"
+              onClick={() => this.addToCart(item)}
+            >
+              Add cart
+            </button>
+          </div>
         </div>
       </div>
+    ));
+
+    return (
+      <section className="featured-products">
+        <div className="container-fluid">
+          <h2>Explore Products</h2>
+
+          {this.state.loading && <p>Loading...</p>}
+
+          {!this.state.loading && products.length === 0 && (
+            <p>No products found</p>
+          )}
+
+          <div className="products-grid">{prods}</div>
+        </div>
+      </section>
     );
   }
 
+  // ================== LIFECYCLE ==================
   componentDidMount() {
-    const params = this.props.params;
-    if (params.cid) {
-      this.apiGetProductsByCatID(params.cid);
-    } else if (params.keyword !== undefined) {
-      // Call API even if keyword is empty or undefined
-      this.apiGetProductsByKeyword(params.keyword || '');
-    }
+    this.loadData();
   }
 
   componentDidUpdate(prevProps) {
-    const params = this.props.params;
-    const prevParams = prevProps.params;
-    
-    if (params.cid && params.cid !== prevParams.cid) {
-      this.apiGetProductsByCatID(params.cid);
-    } else if (params.keyword !== prevParams.keyword && params.keyword !== undefined) {
-      this.apiGetProductsByKeyword(params.keyword || '');
+    const { cid, keyword } = this.props.params;
+    const { cid: prevCid, keyword: prevKeyword } = prevProps.params;
+
+    if (cid !== prevCid || keyword !== prevKeyword) {
+      this.loadData();
     }
   }
 
-  // event handlers
+  // ================== LOAD DATA ==================
+  loadData() {
+    const { cid, keyword } = this.props.params;
+
+    // 👉 sửa URL này nếu backend bạn khác
+    let base = "http://localhost:5000/api/products";
+    let url = base;
+
+    if (cid && cid !== "undefined") {
+      url = `${base}/category/${cid}`;
+    } else if (keyword && keyword !== "undefined") {
+      url = `${base}/search/${keyword}`;
+    }
+
+    this.setState({ loading: true });
+
+    axios
+      .get(url)
+      .then((res) => {
+        const result = Array.isArray(res.data)
+          ? res.data
+          : res.data.data || [];
+
+        this.setState({
+          products: result,
+          loading: false
+        });
+      })
+      .catch((err) => {
+        console.error("API ERROR:", err.response?.data || err.message);
+        this.setState({
+          products: [],
+          loading: false
+        });
+      });
+  }
+
+  // ================== ADD TO CART ==================
   addToCart(product) {
     const quantity = parseInt(window.prompt('Enter quantity:', '1')) || 1;
-    
+
     if (quantity <= 0) {
-      alert('Please enter a valid quantity');
+      alert('Invalid quantity');
       return;
     }
 
-    const mycart = [...this.context.mycart];
+    const mycart = [...(this.context?.mycart || [])];
+
     const index = mycart.findIndex(
       (x) => x.product._id === product._id
     );
 
     if (index === -1) {
-      const newItem = {
-        product: product,
-        quantity: quantity
-      };
-      mycart.push(newItem);
+      mycart.push({ product, quantity });
     } else {
       mycart[index].quantity += quantity;
     }
 
     this.context.setMycart(mycart);
-    alert('Added ' + quantity + ' ' + product.name + ' to cart!');
-  }
-
-  // apis
-  apiGetProductsByCatID(cid) {
-    axios.get('/api/customer/products/category/' + cid).then((res) => {
-      const result = res.data;
-      this.setState({ products: result });
-    });
-  }
-
-  apiGetProductsByKeyword(keyword) {
-    axios.get('/api/customer/products/search/' + keyword).then((res) => {
-      const result = res.data;
-      this.setState({ products: result });
-    });
+    alert(`Added ${quantity} ${product.name}`);
   }
 }
 

@@ -40,8 +40,5 @@
     ]
   },
   "homepage": "/",
-  "proxy": "http://localhost:3000",
-  "devDependencies": {
-    "sass": "^1.99.0"
-  }
+  "proxy": "http://localhost:3000"
 }

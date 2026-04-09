@@ -1,0 +1,522 @@
+/* =============================================
+   HOME PAGE & PRODUCT CARDS ADVANCED EFFECTS
+   ============================================= */
+
+/* ===== HERO SECTION PARALLAX ===== */
+.hero-parallax {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-parallax-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(15, 52, 96, 0.95) 100%);
+  z-index: -1;
+  will-change: transform;
+}
+
+.hero-parallax-shapes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.shape {
+  position: absolute;
+  opacity: 0.05;
+  will-change: transform;
+}
+
+.shape-1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #16c784, transparent);
+  border-radius: 50%;
+  top: -100px;
+  right: -100px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.shape-2 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #16c784, transparent);
+  border-radius: 50%;
+  bottom: -50px;
+  left: -50px;
+  animation: float 10s ease-in-out infinite 2s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px);
+  }
+  50% {
+    transform: translateY(-40px) translateX(0);
+  }
+  75% {
+    transform: translateY(-20px) translateX(-10px);
+  }
+}
+
+/* ===== SECTION TITLE ANIMATION ===== */
+.section-title-animated {
+  position: relative;
+  display: inline-block;
+  animation: titleReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes titleReveal {
+  from {
+    opacity: 0;
+    transform: translateX(-30px) skewX(10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) skewX(0);
+  }
+}
+
+.section-title-animated::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #16c784, #0dd481);
+  border-radius: 2px;
+  animation: lineExpand 0.8s ease-out 0.3s forwards;
+}
+
+@keyframes lineExpand {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* ===== PRODUCT CARD STAGGER ANIMATION ===== */
+.product-card-stagger {
+  animation: cardStagger 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.products-grid .product-card:nth-child(1) { animation-delay: 0s; }
+.products-grid .product-card:nth-child(2) { animation-delay: 0.1s; }
+.products-grid .product-card:nth-child(3) { animation-delay: 0.2s; }
+.products-grid .product-card:nth-child(4) { animation-delay: 0.3s; }
+.products-grid .product-card:nth-child(5) { animation-delay: 0.4s; }
+.products-grid .product-card:nth-child(6) { animation-delay: 0.5s; }
+.products-grid .product-card:nth-child(7) { animation-delay: 0.6s; }
+.products-grid .product-card:nth-child(8) { animation-delay: 0.7s; }
+
+@keyframes cardStagger {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== ADVANCED PRODUCT CARD HOVER EFFECTS ===== */
+.product-card-3d:hover {
+  transform: rotateY(3deg) rotateX(-2deg) translateZ(50px);
+  perspective: 1000px;
+  box-shadow: 
+    20px 20px 40px rgba(0, 0, 0, 0.2),
+    -10px -10px 40px rgba(255, 255, 255, 0.1);
+}
+
+/* ===== PRODUCT IMAGE ZOOM & TILT ===== */
+.product-image-advanced {
+  position: relative;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.product-image-advanced img {
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.product-card:hover .product-image-advanced img {
+  transform: scale(1.15) rotate(3deg);
+  filter: brightness(1.1);
+}
+
+/* ===== PRODUCT BADGE ANIMATION ===== */
+.product-badge-animated {
+  animation: badgeSlide 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: top right;
+}
+
+@keyframes badgeSlide {
+  from {
+    opacity: 0;
+    transform: translateX(30px) rotate(-45deg) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) rotate(0) scale(1);
+  }
+}
+
+/* ===== PRICE TAG ANIMATION ===== */
+.price-tag-animated {
+  position: relative;
+  display: inline-block;
+}
+
+.price-tag-animated::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  background: #16c784;
+  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.product-card:hover .price-tag-animated::before {
+  width: 100%;
+}
+
+/* ===== ACTION BUTTONS ANIMATION ===== */
+.btn-action-animated {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-action-animated::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+  z-index: -1;
+}
+
+.btn-action-animated:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* ===== ICON ANIMATIONS IN BUTTONS ===== */
+.btn-with-icon i {
+  display: inline-block;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin-right: 0.5rem;
+}
+
+.btn-action-animated:hover i {
+  transform: translateX(4px) scale(1.1);
+}
+
+/* ===== SECTION BACKGROUND ANIMATION ===== */
+.section-bg-animated {
+  position: relative;
+  background: linear-gradient(135deg, #f8f9fa 0%, #f0f0f0 100%);
+  background-size: 200% 200%;
+  animation: bgShift 15s ease infinite;
+}
+
+@keyframes bgShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ===== CONTENT REVEAL ANIMATION ===== */
+.content-reveal {
+  position: relative;
+  overflow: hidden;
+}
+
+.content-reveal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: white;
+  animation: contentReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  z-index: 10;
+}
+
+@keyframes contentReveal {
+  to {
+    left: 100%;
+  }
+}
+
+/* ===== LOADING STATE ANIMATION ===== */
+.skeleton-loading {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonLoading 2s infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeletonLoading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ===== SCROLL TO TOP BUTTON ===== */
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #16c784, #0dd481);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 8px 20px rgba(22, 199, 132, 0.3);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 99;
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  animation: scrollTopBounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scrollTopBounce {
+  0% {
+    transform: translateY(30px) scale(0.8);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.scroll-to-top:hover {
+  background: linear-gradient(135deg, #14b577, #0dd481);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(22, 199, 132, 0.4);
+}
+
+.scroll-to-top:active {
+  transform: scale(0.95);
+}
+
+/* ===== PRODUCT DETAIL CARD ANIMATION ===== */
+.product-detail-card {
+  animation: detailCardReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes detailCardReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ===== CATEGORY FILTER ANIMATION ===== */
+.category-filter {
+  animation: filterSlide 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes filterSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.category-item {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.category-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: #16c784;
+  border-radius: 2px;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.category-item:hover::before {
+  transform: scaleY(1);
+}
+
+.category-item.active {
+  background: rgba(22, 199, 132, 0.1);
+  color: #16c784;
+}
+
+/* ===== EMPTY STATE ANIMATION ===== */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  animation: emptyStateFade 0.6s ease-out;
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes emptyStateFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== SUCCESS TOAST ANIMATION ===== */
+.toast-animated {
+  animation: toastSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes toastSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.toast-animated.exit {
+  animation: toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes toastSlideOut {
+  to {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+
+/* ===== BLUR OVERLAY ANIMATION ===== */
+.blur-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  animation: overlayFade 0.3s ease-out;
+  z-index: 999;
+}
+
+@keyframes overlayFade {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  .products-grid .product-card:nth-child(n) {
+    animation-delay: 0s !important;
+  }
+
+  .scroll-to-top {
+    width: 45px;
+    height: 45px;
+    font-size: 1rem;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .shape-1 {
+    width: 200px;
+    height: 200px;
+    top: -100px;
+    right: -100px;
+  }
+
+  .shape-2 {
+    width: 150px;
+    height: 150px;
+    bottom: -50px;
+    left: -50px;
+  }
+}
